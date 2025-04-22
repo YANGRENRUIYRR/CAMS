@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="text-center p-3 mb-4 bg-gradient rounded-3 text-center" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+<h1 class="display-3">{{ school.school_name }}</h1>
+{%if school.owner == user%}
+  <p>
+    <a href="{% url 'main:new_class' school.id %}">添加新的班级</a>
+  </p>
+{%endif%}
+  {% for class in classes %}
+    <div class="card mb-3">
+      <!-- Card header with timestamp and edit link -->
+      <h4 class="card-header">
+        {% if school.owner == user %}
+        <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:delete_class' class.id %}" style="background: red !important">
+          删除班级</a>
+        <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:edit_class' class.id %}">
+          编辑班级</a>
+        {% else %}
+          <small>您不能进行任何操作</small>
+        {% endif %}
+          
+      </h4>
+      <!-- Card body with username text -->
+      <div class="card-body">
+        <h3>班级名称:<a href="{% url 'main:class' class.id %}">{{ class.class_name }}</a></h3></div>
+    </div>
+  {% empty %}
+    <p>这个学校还没有班级</p>
+  {% endfor %}
+</div>
+{% endblock content %}
