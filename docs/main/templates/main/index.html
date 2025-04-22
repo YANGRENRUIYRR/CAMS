@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+{% load i18n %}
+
+{% block page_header %}
+  <!-- 主容器，添加背景渐变和圆角样式 -->
+  <div class="p-3 mb-4 bg-gradient rounded-3 text-center" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <div class="container-fluid py-4">
+      <!-- 标题部分，添加文本阴影和自定义字体样式 -->
+      <h1 class="display-3 text-center" style="color: #2c3e50;">
+        {% trans "管理校园内的活动" %}
+      </h1>
+      <!-- 描述段落，调整文本颜色和对齐方式 -->
+      <p class="lead text-center text-muted">
+        {% trans "登记所有活动起止时间、名称和描述，老师和班级里的学生就可以看到所有活动并准时参加了！" %}
+      </p>
+      <!-- 按钮容器，使用 flexbox 布局实现居中 -->
+      <div class="d-flex justify-content-center">
+        <a class="btn btn-primary btn-lg mt-3 regbtn"
+           href="{% url 'accounts:register' %}"
+           style="padding: 12px 24px; border-radius: 25px; background-color: #3498db; border: none;">
+          {% trans "注册" %} &raquo;
+        </a>
+        &nbsp;&nbsp;
+        <a class="btn btn-primary btn-lg mt-3 libtn"
+           href="{% url 'accounts:login' %}"
+           style="padding: 12px 24px; border-radius: 25px; background-color: #3498db; border: none;">
+          {% trans "登录" %} &raquo;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 内联样式，定义文本阴影和按钮悬停效果 -->
+{% endblock page_header %}
