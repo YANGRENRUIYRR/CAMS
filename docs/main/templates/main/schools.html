@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="text-center p-3 mb-4 bg-gradient rounded-3" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+<h1 class="display-3 text-center">学校列表</h1>
+{% if user.is_superuser %}<p><a href="{% url 'main:new_school' %}">添加新的学校</a></p>{% endif %}
+  <ul class="list-group border-bottom pb-2 mb-4">
+    {% for school in schools %}
+    <div class="card mb-3">
+      <!-- Card header with timestamp and edit link -->
+      <h4 class="card-header">
+        {% if school.owner == user %}
+        <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:delete_school' school.id %}" style="background: red !important;">
+          删除学校</a>
+          <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:edit_school' school.id %}">
+            编辑学校</a>{%else%}<small>您不能进行任何操作</small>{% endif %}
+      </h4>
+      <div class="card-body">
+        <h3>学校名称:<a href="{% url 'main:school' school.id %}">{{ school.school_name }}</a></h3></div>
+      <!-- Card body with username text -->
+    </div>
+    {% empty %}
+      <li class="list-group-item border-0">尚未添加任何学校</li>
+    {% endfor %}
+  </ul>
+</div>
+  
+
+{% endblock content %}
