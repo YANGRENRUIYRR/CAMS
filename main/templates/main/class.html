@@ -1,0 +1,88 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<script>
+  function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>校园活动管理系统</title>');
+    printWindow.document.write('<link rel="icon" href="/static/image/favicon.ico">');
+    printWindow.document.write(`<link crossorigin="anonymous" href="/static/css/bootstrap.min.css" rel="stylesheet"><style>
+    .btn {
+    border: none;
+       transition: all 0.25s ease;
+       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+       border-radius: 25px;
+    }
+    .btn:hover{
+      transform: scale(1.5);
+    }
+    .regbtn{
+      background: linear-gradient(to right, #0066ff, #00ddff);
+       --bs-btn-border-color: none;
+       transition: all 0.25s ease;
+       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    .regbtn:hover{
+      transform: scale(1.5);
+    }
+    .libtn{
+      background: linear-gradient(to left, #0066ff, #00ddff);
+       --bs-btn-border-color: none;
+       transition: all 0.25s ease;
+       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    .libtn:hover{
+      transform: scale(1.5);
+    }
+    html{
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      font-family: "楷体", "KaiTi", "STKaiti", "SimKai", serif;
+    }
+      body{
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      font-family: "楷体", "KaiTi", "STKaiti", "SimKai", serif;
+    }
+   </style>`);
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(printContents);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+    printWindow.close();
+  }
+</script>
+<div class="text-center p-3 mb-4 bg-gradient rounded-3" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+<h1 class="display-3">{{ class.class_name }}</h1>
+{%if class.school.owner == user%}
+  <p>
+    <a href="{% url 'main:new_activity' class.id %}">添加新的活动</a>
+  </p>
+{%endif%}
+  {% for activity in activities %}
+  <div id="cb{{activity.id}}">
+    <div class="card mb-3 text-center">
+      <!-- Card header with timestamp and edit link -->
+      <h4 class="card-header" id="h41">
+        {% if class.school.owner == user %}
+        <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:delete_activity' activity.id %}" style="background: red !important">
+          删除活动</a>
+        <a class="btn btn-primary btn-lg mt-3"href="{% url 'main:edit_activity' activity.id %}">
+          编辑活动</a>
+        {% endif %}
+        <a class="btn btn-primary btn-lg mt-3"href="." onclick="printDiv('cb{{activity.id}}')">
+          打印活动信息</a>
+      </h4>
+      <!-- Card body with username text -->
+      <div class="card-body">
+        <h3>活动名称:{{activity.activity_name}}</h3>
+      <h3>活动描述:{{activity.activity_description}}</h3>
+      <h3>开始时间:{{activity.start_time}}</h3>
+      <h3>结束时间:{{activity.end_time}}</h3>
+    </div>
+  </div>
+  {% empty %}
+    <p>这个班级还没有活动</p>
+  {% endfor %}
+</div>
+{% endblock content %}
