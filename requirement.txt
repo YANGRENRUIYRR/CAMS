@@ -1,0 +1,7 @@
+pip
+asgiref
+django
+django-bootstrap5
+sqlparse
+tzdata
+waitress
